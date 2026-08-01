@@ -31,4 +31,4 @@ $_SERVER['DOCUMENT_ROOT'] = __DIR__ . '/../public';
 $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../public/index.php';
 
 // Запускаем основной движок игрового сайта
-require __DIR__ . '/../public/index.php';
+require __DIR__ . '/public/index.php';
