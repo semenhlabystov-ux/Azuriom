@@ -1,5 +1,10 @@
 <?php
 
+// Принудительно выводим все ошибки на экран
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Перенаправляем папки кэша во временную память Vercel
 $_ENV['APP_STORAGE'] = '/tmp/storage';
 $_ENV['VIEW_COMPILED_PATH'] = '/tmp/storage/framework/views';
