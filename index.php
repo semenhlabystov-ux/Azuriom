@@ -1,6 +1,6 @@
 <?php
 
-// Полное включение вывода ошибок прямо на страницу
+// Включаем отображение ошибок для контроля
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -9,8 +9,8 @@ error_reporting(E_ALL);
 $_ENV['APP_STORAGE'] = '/tmp/storage';
 $_ENV['VIEW_COMPILED_PATH'] = '/tmp/storage/framework/views';
 $_ENV['LOG_CHANNEL'] = 'stderr';
-$_ENV['SESSION_DRIVER'] = 'array'; // Сессии будут в памяти, а не в файлах
-$_ENV['CACHE_DRIVER'] = 'array';   // Кэш будет в памяти, а не в файлах
+$_ENV['SESSION_DRIVER'] = 'array';
+$_ENV['CACHE_DRIVER'] = 'array';
 
 // Создаем нужные директории во временной папке сервера
 $storagePaths = [
@@ -26,9 +26,10 @@ foreach ($storagePaths as $path) {
     }
 }
 
-// Нагло врем серверу, что папка public является корнем запроса
-$_SERVER['DOCUMENT_ROOT'] = __DIR__ . '/../public';
-$_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../public/index.php';
+// Корректируем глобальные пути сервера под архитектуру Vercel
+$_SERVER['DOCUMENT_ROOT'] = __DIR__ . '/public';
+$_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/public/index.php';
+$_SERVER['PHP_SELF'] = '/index.php';
 
-// Запускаем основной движок игрового сайта
+// Запускаем основной движок из папки public
 require __DIR__ . '/public/index.php';
