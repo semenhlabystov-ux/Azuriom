@@ -1,9 +1,16 @@
 <?php
 
-if (defined('AZURIOM_NO_URL_REWRITE')) {
-    exit('An error occurred, please try to refresh the page.');
+// Перенаправляем папки кэша во временную память Vercel
+$_ENV['APP_STORAGE'] = '/tmp/storage';
+$_ENV['VIEW_COMPILED_PATH'] = '/tmp/storage/framework/views';
+$_ENV['LOG_CHANNEL'] = 'stderr';
+
+// Автоматически создаем структуру папок во временной памяти, если её нет
+if (!is_dir('/tmp/storage/framework/views')) {
+    mkdir('/tmp/storage/framework/views', 0755, true);
+    mkdir('/tmp/storage/framework/sessions', 0755, true);
+    mkdir('/tmp/storage/framework/cache', 0755, true);
 }
 
-define('AZURIOM_NO_URL_REWRITE', 'true');
-
-require __DIR__.'/public/index.php';
+// Запускаем основной движок
+require __DIR__ . '/../public/index.php';
