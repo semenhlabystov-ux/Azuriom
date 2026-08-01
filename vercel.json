@@ -1,8 +1,9 @@
 {
   "version": 2,
-  "plugins": [
+  "builds": [
     {
-      "src": "juicyfx/vercel-php"
+      "src": "api/index.php",
+      "use": "vercel-php@0.7.2"
     }
   ],
   "routes": [
