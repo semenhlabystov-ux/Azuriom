@@ -1,21 +1,34 @@
 <?php
 
-// Принудительно выводим все ошибки на экран
+// Полное включение вывода ошибок прямо на страницу
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Перенаправляем папки кэша во временную память Vercel
+// Подменяем переменные окружения для работы в облаке Vercel
 $_ENV['APP_STORAGE'] = '/tmp/storage';
 $_ENV['VIEW_COMPILED_PATH'] = '/tmp/storage/framework/views';
 $_ENV['LOG_CHANNEL'] = 'stderr';
+$_ENV['SESSION_DRIVER'] = 'array'; // Сессии будут в памяти, а не в файлах
+$_ENV['CACHE_DRIVER'] = 'array';   // Кэш будет в памяти, а не в файлах
 
-// Автоматически создаем структуру папок во временной памяти, если её нет
-if (!is_dir('/tmp/storage/framework/views')) {
-    mkdir('/tmp/storage/framework/views', 0755, true);
-    mkdir('/tmp/storage/framework/sessions', 0755, true);
-    mkdir('/tmp/storage/framework/cache', 0755, true);
+// Создаем нужные директории во временной папке сервера
+$storagePaths = [
+    '/tmp/storage/framework/views',
+    '/tmp/storage/framework/sessions',
+    '/tmp/storage/framework/cache',
+    '/tmp/storage/logs'
+];
+
+foreach ($storagePaths as $path) {
+    if (!is_dir($path)) {
+        mkdir($path, 0755, true);
+    }
 }
 
-// Запускаем основной движок
+// Нагло врем серверу, что папка public является корнем запроса
+$_SERVER['DOCUMENT_ROOT'] = __DIR__ . '/../public';
+$_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../public/index.php';
+
+// Запускаем основной движок игрового сайта
 require __DIR__ . '/../public/index.php';
